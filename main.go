@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"sync"
 	"time"
@@ -9,6 +10,12 @@ import (
 )
 
 var wg sync.WaitGroup
+var prefix string
+
+func init() {
+
+	flag.StringVar(&prefix, "prefix", "192.168", "ip prefix ")
+}
 
 // Ping 测试目标是否能达到
 func Ping(dest string) bool {
@@ -39,14 +46,15 @@ var ipstats = make(chan string)
 func GetIPs() {
 	for x := 0; x < 255; x++ {
 		for y := 0; y < 255; y++ {
-			IPchan <- fmt.Sprintf("192.168.%d.%d", x, y)
+			IPchan <- fmt.Sprintf("%s.%d.%d", prefix, x, y)
 		}
 	}
 	close(IPchan)
 }
 func scan() {
+	flag.Parse()
 	// 并发数设置
-	for i := 0; i < 5000; i++ {
+	for i := 0; i < 1000; i++ {
 		wg.Add(1)
 		go func() {
 			for ip := range IPchan {
