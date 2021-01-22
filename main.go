@@ -17,6 +17,7 @@ func Ping(dest string) bool {
 		panic(err)
 	}
 	pinger.Count = 3
+	pinger.SetPrivileged(true)
 	pinger.Timeout = time.Second * 1
 	err = pinger.Run() // Blocks until finished.
 	if err != nil {
@@ -45,7 +46,7 @@ func GetIPs() {
 }
 func scan() {
 	// 并发数设置
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 8000; i++ {
 		wg.Add(1)
 		go func() {
 			for ip := range IPchan {

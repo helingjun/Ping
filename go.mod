@@ -1,4 +1,4 @@
-module myping
+module Mping
 
 go 1.15
 
