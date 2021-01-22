@@ -46,7 +46,7 @@ func GetIPs() {
 }
 func scan() {
 	// 并发数设置
-	for i := 0; i < 8000; i++ {
+	for i := 0; i < 5000; i++ {
 		wg.Add(1)
 		go func() {
 			for ip := range IPchan {
